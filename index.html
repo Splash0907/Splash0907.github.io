@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HOME</title>
+<style> 
+#slider {
+	overflow: hidden;
+}
+#slider figure {
+	position: relative;
+	width:500%;
+	margin-top:70px;	
+	left:0;
+	animation: 20s slider infinite;
+}
+#slider figure img {
+	float: left;
+	width: 20%;
+}
+
+@keyframes slider {
+	0% {
+		left: 0;
+	}
+	20% {
+		left: 0;
+	}
+	25% {
+		left: -100%;
+	}
+	45% {
+		left: -100%;
+	}
+	50% {
+		left: -200%;
+	}
+	70% {
+		left: -200%;
+	}
+	75% {
+		left: -300%;
+	}
+	95% {
+		left: -300%;
+	}
+	100% {
+		left: -400%;
+	}
+}
+
+
+body{
+	margin:0;	
+	background-image: url('IMG_9816-2.jpg');
+            background-size: cover;
+}
+
+.topnav {
+	margin-top: 30px;
+	background: #0B3B5D;
+	overflow: hidden;
+	border-style: ridge;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+	
+  float: left;
+  color: #f2f2f2;
+  text-align:right;
+  padding: 14px 25px;
+  margin-left:20px;
+  text-decoration: none;
+  font-size: 17px;
+  font-family: Arial;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #04AA6D;
+  color: black;
+}	
+
+.logo img{
+	position: absolute;
+	margin-top: -20px;
+	margin-left: 10px;
+
+
+}
+
+footer{
+	position: fixed;
+	bottom:0;
+	padding:0px;
+	width:100%;
+	font-size:17px; 
+	font-weight:bold; 
+	text-align:center; 
+	background:#1D5FA7;
+	color:white;
+	font-family:Arial; 
+	letter-spacing:1px;
+}
+
+
+</style>
+
+</head>
+<body>
+<div class ="logo"><a href = "#"><img src ="FPFelixLogo.png"></a>
+</div>
+<div class="topnav">
+  <a href="#"> Log</a>
+  
+  <a href="PROFILE.HTML"> Profile</a>
+  <a href="GALLERY.HTML"> Gallery</a>
+  <a href="INFO.HTML"> Info</a>
+</div> 
+
+<div id="slider">
+		<figure>
+			<img src="school/1.png">
+			<img src="school/2.png">
+			<img src="school/3.png">
+			<img src="school/4.png">
+			<img src="school/1.png">
+            
+		</figure>
+	</div>
+    
+<footer>
+All Right Reserved Group 2 ICT
+</footer>
+</body>
+</html>
