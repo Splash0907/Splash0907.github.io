@@ -1,136 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>HOME</title>
-<style> 
-#slider {
-	overflow: hidden;
-}
-#slider figure {
-	position: relative;
-	width:500%;
-	margin-top:70px;	
-	left:0;
-	animation: 20s slider infinite;
-}
-#slider figure img {
-	float: left;
-	width: 20%;
-}
-
-@keyframes slider {
-	0% {
-		left: 0;
-	}
-	20% {
-		left: 0;
-	}
-	25% {
-		left: -100%;
-	}
-	45% {
-		left: -100%;
-	}
-	50% {
-		left: -200%;
-	}
-	70% {
-		left: -200%;
-	}
-	75% {
-		left: -300%;
-	}
-	95% {
-		left: -300%;
-	}
-	100% {
-		left: -400%;
-	}
-}
-
-
-body{
-	margin:0;	
-	background-image: url('IMG_9816-2.jpg');
-            background-size: cover;
-}
-
-.topnav {
-	margin-top: 30px;
-	background: #0B3B5D;
-	overflow: hidden;
-	border-style: ridge;
-}
-
-/* Style the links inside the navigation bar */
-.topnav a {
-	
-  float: left;
-  color: #f2f2f2;
-  text-align:right;
-  padding: 14px 25px;
-  margin-left:20px;
-  text-decoration: none;
-  font-size: 17px;
-  font-family: Arial;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-  background-color: #04AA6D;
-  color: black;
-}	
-
-.logo img{
-	position: absolute;
-	margin-top: -20px;
-	margin-left: 10px;
-
-
-}
-
-footer{
-	position: fixed;
-	bottom:0;
-	padding:0px;
-	width:100%;
-	font-size:17px; 
-	font-weight:bold; 
-	text-align:center; 
-	background:#1D5FA7;
-	color:white;
-	font-family:Arial; 
-	letter-spacing:1px;
-}
-
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genshin Artifact System</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1e21;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    cursor: url('genshin_cursor.cur'), auto; /* Set custom cursor */
+  }
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #232327;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  .button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  .button:hover {
+    background-color: #45a049;
+  }
+  .inventory {
+    margin-top: 20px;
+  }
+  .artifact {
+    padding: 10px;
+    border: 1px solid #4a4a4a;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    background-color: #363639;
+    transition: background-color 0.3s;
+    position: relative;
+  }
+  .artifact:hover {
+    background-color: #2c2c2f;
+  }
 </style>
-
 </head>
 <body>
-<div class ="logo"><a href = "#"><img src ="FPFelixLogo.png"></a>
-</div>
-<div class="topnav">
-  <a href="#"> Log</a>
-  
-  <a href="PROFILE.HTML"> Profile</a>
-  <a href="GALLERY.HTML"> Gallery</a>
-  <a href="INFO.HTML"> Info</a>
-</div> 
 
-<div id="slider">
-		<figure>
-			<img src="school/1.png">
-			<img src="school/2.png">
-			<img src="school/3.png">
-			<img src="school/4.png">
-			<img src="school/1.png">
-            
-		</figure>
-	</div>
-    
-<footer>
-All Right Reserved Group 2 ICT
-</footer>
+<div class="container">
+  <h1 style="text-align: center; font-size: 28px; margin-bottom: 20px;">Genshin Artifact System</h1>
+  <p style="font-size: 18px;">Mora: <span id="mora">0</span></p>
+  <p style="font-size: 18px;">Artifacts: <span id="artifactCount">0</span>/400</p>
+  <button class="button" onclick="buyArtifact()">Buy Artifact (Costs 250 Mora)</button>
+  <button class="button" onclick="rewardRandomArtifacts()">Get 3 Random Artifacts</button>
+  <div class="inventory">
+    <h2 style="font-size: 24px; margin-top: 20px;">Inventory</h2>
+    <ul id="inventoryList" style="list-style-type: none; padding: 0;">
+      
+    </ul>
+  </div>
+</div>
+
+<script>
+  let mora = 0;
+  let inventory = [];
+  let artifactCount = 0;
+  let restartThreshold = 60;
+  let moraIndex = 0;
+  const artifactsToWin = 400;
+
+  // Function to add money every 3 seconds
+  setInterval(function() {
+    mora += 100;
+    document.getElementById('mora').innerText = mora;
+  }, 3000);
+
+  // Function to generate a random artifact
+  function generateArtifact() {
+    const artifacts = ['Flower of Life', 'Plume of Death', 'Sands of Eon', 'Goblet of Eonothem', 'Circlet of Logos'];
+    const stats = ['ATK', 'DEF', 'HP', 'Elemental Mastery', 'Energy Recharge'];
+    const randomArtifact = artifacts[Math.floor(Math.random() * artifacts.length)];
+    const randomStat = stats[Math.floor(Math.random() * stats.length)];
+    const randomValue = Math.floor(Math.random() * 21) + 5; // Random value between 5 and 25
+    return {
+      artifact: randomArtifact,
+      stat: randomStat,
+      value: randomValue
+    };
+  }
+
+  // Function to buy an artifact
+  function buyArtifact() {
+    if (mora >= 250) {
+      mora -= 250;
+      const artifact = generateArtifact();
+      inventory.push(artifact);
+      artifactCount++;
+      updateInventory();
+      updateArtifactCount();
+      document.getElementById('mora').innerText = mora;
+      
+      // Check for win condition
+      if (artifactCount >= artifactsToWin) {
+        winGame();
+      }
+    } else {
+      alert('Not enough Mora to buy artifact!');
+    }
+  }
+
+  // Function to reward random artifacts with a chance of removal
+  function rewardRandomArtifacts() {
+    const confirmResult = window.confirm("Would you like to receive 3 random artifacts?");
+    if (confirmResult) {
+      const newArtifacts = [];
+      for (let i = 0; i < 3; i++) {
+        const artifact = generateArtifact();
+        newArtifacts.push(artifact);
+      }
+      
+      inventory = [...inventory, ...newArtifacts];
+      artifactCount += 3;
+      updateInventory();
+      updateArtifactCount();
+      
+      const removalChance = 0.3; // 30% chance of removal
+      if (Math.random() < removalChance) {
+        inventory = inventory.filter(item => !newArtifacts.includes(item));
+        artifactCount -= 3;
+        updateInventory();
+        updateArtifactCount();
+        alert("Oops! The artifacts vanished mysteriously.");
+      }
+    }
+  }
+
+  // Function to update inventory list
+  function updateInventory() {
+    const inventoryList = document.getElementById('inventoryList');
+    inventoryList.innerHTML = '';
+    inventory.forEach((item, index) => {
+      const li = document.createElement('li');
+      li.className = 'artifact';
+      li.innerHTML = `<strong>${item.artifact}</strong> - ${item.stat}: ${item.value}`;
+      inventoryList.appendChild(li);
+    });
+  }
+  
+  // Function to update artifact count display
+  function updateArtifactCount() {
+    document.getElementById('artifactCount').innerText = artifactCount;
+  }
+
+  // Function to handle win condition
+  function winGame() {
+    alert("Congratulations! You have collected 400 artifacts and won the game!");
+  }
+</script>
+
+
 </body>
 </html>
